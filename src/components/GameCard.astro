@@ -8,6 +8,9 @@ interface Props {
 }
 
 const { game } = Astro.props;
+const roundedStarRating = game.starRating === null || game.starRating === undefined
+    ? null
+    : Math.max(0, Math.min(5, Math.round(game.starRating)));
 ---
 
 <a
@@ -40,8 +43,8 @@ const { game } = Astro.props;
             <p class="text-slate-400 mb-4 text-sm line-clamp-2" data-testid="game-description">{game.description}</p>
 
             <div class="text-sm mb-4" data-testid="game-star-rating">
-                {game.starRating !== null && game.starRating !== undefined
-                    ? <span class="text-yellow-400">{'★'.repeat(game.starRating)}{'☆'.repeat(5 - game.starRating)}</span>
+                {roundedStarRating !== null
+                    ? <span class="text-yellow-400 whitespace-nowrap">{'★'.repeat(roundedStarRating)}{'☆'.repeat(5 - roundedStarRating)} <span class="text-slate-300">({game.starRating}/5)</span></span>
                     : <span class="text-slate-500">No rating yet</span>
                 }
             </div>
